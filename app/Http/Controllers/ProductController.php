@@ -6,9 +6,9 @@ use App\Models\Product;
 use Illuminate\Http\JsonResponse;
 class ProductController extends Controller
 {
-    public function index(): JsonResponse
+    public function index()
     {
         $products = Product::with(['stocks.warehouse'])->get();
-        return response()->json($products);
+        return view("products.list", compact("products"));
     }
 }
