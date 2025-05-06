@@ -24,9 +24,10 @@ Route::get('/warehouses', [WarehouseController::class, 'index']);
 Route::get('/products', [ProductController::class, 'index']);
 
 Route::get('/orders', [OrderController::class, 'index']);
-Route::post('/orders', [OrderController::class, 'store']);
-Route::put('/orders/{order}', [OrderController::class, 'update']);
+Route::get('/orders/create', [OrderController::class, 'create'])->name('orders.create');
+Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
+Route::put('/orders/{order}', [OrderController::class, 'update'])->name('orders.update');
 
-Route::post('/orders/{order}/complete', [OrderController::class, 'complete']);
-Route::post('/orders/{order}/cancel', [OrderController::class, 'cancel']);
-Route::post('/orders/{order}/resume', [OrderController::class, 'resume']);
+Route::post('/orders/{order}/complete', [OrderController::class, 'complete'])->name('orders.complete');
+Route::post('/orders/{order}/cancel', [OrderController::class, 'cancel'])->name('orders.cancel');
+Route::post('/orders/{order}/resume', [OrderController::class, 'resume'])->name('orders.resume');

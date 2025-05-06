@@ -12,22 +12,26 @@ use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
 {
-    public function index(): JsonResponse
+    public function index()
     {
-        $query = Order::with(['items.product', 'warehouse']);
+        $order = Order::with(['items.product', 'warehouse'])->get();
 
         if (request('status')) {
-            $query->where('status', request('status'));
+            $order->where('status', request('status'));
         }
         if (request('customer')) {
-            $query->where('customer', 'like', '%' . request('customer') . '%');
+            $order->where('customer', 'like', '%' . request('customer') . '%');
         }
 
-        $orders = $query->paginate(request('per_page', 10));
-        return response()->json($orders);
+//        $orders = $query->paginate(request('per_page', 10));
+        return view("orders.list", compact('order'));
     }
 
-    public function store(StoreOrderRequest $request): JsonResponse
+    public function create(){
+        return view("orders.create");
+    }
+
+    public function store(StoreOrderRequest $request)
     {
         return DB::transaction(function () use ($request) {
             $data = $request->validated();
@@ -59,7 +63,7 @@ class OrderController extends Controller
         });
     }
 
-    public function update(UpdateOrderRequest $request, Order $order): JsonResponse
+    public function update(UpdateOrderRequest $request, Order $order)
     {
         if ($order->status !== 'active') {
             return response()->json(['error' => 'Թարմացումը թույլատրվում է միայն ակտիվ պատվերների համար'], 400);
@@ -103,23 +107,23 @@ class OrderController extends Controller
         });
     }
 
-    public function complete(Order $order): JsonResponse
+    public function complete(Order $order)
     {
         if ($order->status !== 'active') {
-            return response()->json(['error' => 'Միայն ակտիվ պատվերները կարող են ավարտվել'], 400);
+            return response()->json(['error' => 'Only active orders can be completed.'], 400);
         }
 
         $order->status = 'completed';
         $order->completed_at = now();
         $order->save();
 
-        return response()->json(['message' => 'Պատվերը հաջողությամբ ավարտվեց']);
+        return response()->json(['message' => 'Order completed successfully.']);
     }
 
-    public function cancel(Order $order): JsonResponse
+    public function cancel(Order $order)
     {
         if ($order->status !== 'active') {
-            return response()->json(['error' => 'Միայն ակտիվ պատվերները կարող են չեղարկվել'], 400);
+            return response()->json(['error' => 'Only active orders can be canceled.'], 400);
         }
 
         foreach ($order->items as $item) {
@@ -132,10 +136,10 @@ class OrderController extends Controller
         $order->status = 'canceled';
         $order->save();
 
-        return response()->json(['message' => 'Պատվերը չեղարկված է']);
+        return response()->json(['message' => 'Order canceled.']);
     }
 
-    public function resume(Order $order): JsonResponse
+    public function resume(Order $order)
     {
         if ($order->status !== 'canceled') {
             return response()->json(['error' => 'Միայն չեղարկված պատվերները կարող են վերականգնվել'], 400);
@@ -146,7 +150,7 @@ class OrderController extends Controller
                 ->where('warehouse_id', $order->warehouse_id)->lockForUpdate()->first();
 
             if (!$stock || $stock->stock < $item->count) {
-                return response()->json(['error' => 'Քանակը բավարար չէ ապրանքի վերականգնման համար'], 400);
+                return response()->json(['error' => 'Insufficient quantity for the product'], 400);
             }
 
             $stock->decrement('stock', $item->count);
@@ -155,6 +159,6 @@ class OrderController extends Controller
         $order->status = 'active';
         $order->save();
 
-        return response()->json(['message' => 'Պատվերը վերականգնվել է']);
+        return response()->json(['message' => 'Order restored']);
     }
 }
