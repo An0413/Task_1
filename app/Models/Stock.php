@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Stock extends Model
 {
     use HasFactory;
+    // Отключаем использование временных меток
+    public $timestamps = false;
+
     protected $fillable = ['product_id', 'warehouse_id', 'stock'];
 
     public function product()
