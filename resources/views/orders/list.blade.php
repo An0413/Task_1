@@ -51,11 +51,12 @@
                                 </form>
                             </td>
                         </tr>
+                    @endforeach
+
                     </tbody>
                 </table>
                 <div id="message-{{ $value }}" class="text-success mt-1"></div>
                 <div id="cancel-message-{{ $value }}" class="mt-1"></div>
-                @endforeach
             </div>
             <div class="modal fade" id="paid" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
