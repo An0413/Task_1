@@ -16,14 +16,16 @@ use App\Http\Controllers\OrderController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+//Route::get('/', function () {
+//    return view('welcome');
+//});
+Route::get('/', [OrderController::class, 'index'])->name('orders');
 
-Route::get('/warehouses', [WarehouseController::class, 'index']);
-Route::get('/products', [ProductController::class, 'index']);
 
-Route::get('/orders', [OrderController::class, 'index']);
+Route::get('/warehouses', [WarehouseController::class, 'index'])->name('warehouses');
+Route::get('/products', [ProductController::class, 'index'])->name('products');
+
+Route::get('/orders', [OrderController::class, 'index'])->name('orders');
 Route::get('/orders/create', [OrderController::class, 'create'])->name('orders.create');
 Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
 Route::put('/orders/{order}', [OrderController::class, 'update'])->name('orders.update');
