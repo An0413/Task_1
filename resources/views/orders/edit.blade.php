@@ -8,7 +8,7 @@
     <div class="row">
         <div class="col-1"></div>
         <div class="col-10 mt-4">
-            <form action="{{route("orders.store")}}" method="POST">
+            <form action="{{"orders.update"}}" method="POST">
                 @csrf
                 <div class="col-lg-4 col-sm-6">
                     <div class="form-group">

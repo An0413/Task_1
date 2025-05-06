@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateOrderRequest;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Stock;
+use App\Models\Warehouse;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 
@@ -28,12 +29,13 @@ class OrderController extends Controller
     }
 
     public function create(){
-        return view("orders.create");
+        $warehouses = Warehouse::all();
+        return view("orders.create", compact('warehouses'));
     }
 
     public function store(StoreOrderRequest $request)
     {
-        return DB::transaction(function () use ($request) {
+            return DB::transaction(function () use ($request) {
             $data = $request->validated();
 
             $order = Order::create([
@@ -41,25 +43,25 @@ class OrderController extends Controller
                 'warehouse_id' => $data['warehouse_id'],
                 'status' => 'active',
             ]);
+                foreach ($data['items'] as $item) {
+                    $stock = Stock::where('product_id', $item['product_id'])
+                        ->where('warehouse_id', $data['warehouse_id'])
+                        ->lockForUpdate()
+                        ->first();
 
-            foreach ($data['items'] as $item) {
-                $stock = Stock::where('product_id', $item['product_id'])
-                    ->where('warehouse_id', $data['warehouse_id'])->lockForUpdate()->first();
+                    if (!$stock || $stock->stock < $item['count']) {
+                        throw new \Exception('Ապրանքների քանակը բավարար չէ');
+                    }
 
-                if (!$stock || $stock->stock < $item['count']) {
-                    return response()->json(['error' => 'Ապրանքների քանակը բավարար չէ'], 400);
+                    $stock->decrement('stock', $item['count']);
+
+                    OrderItem::create([
+                        'order_id' => $order->id,
+                        'product_id' => $item['product_id'],
+                        'count' => $item['count'],
+                    ]);
                 }
-
-                $stock->decrement('stock', $item['count']);
-
-                OrderItem::create([
-                    'order_id' => $order->id,
-                    'product_id' => $item['product_id'],
-                    'count' => $item['count'],
-                ]);
-            }
-
-            return response()->json($order, 201);
+            return view("orders.list", compact('order'));
         });
     }
 
