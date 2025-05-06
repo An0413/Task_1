@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\WarehouseController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\Api\StockMovementController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,3 +32,4 @@ Route::put('/orders/{order}', [OrderController::class, 'update'])->name('orders.
 Route::post('/orders/{order}/complete', [OrderController::class, 'complete'])->name('orders.complete');
 Route::post('/orders/{order}/cancel', [OrderController::class, 'cancel'])->name('orders.cancel');
 Route::post('/orders/{order}/resume', [OrderController::class, 'resume'])->name('orders.resume');
+Route::get('/stock-movements', [StockMovementController::class, 'index']);
