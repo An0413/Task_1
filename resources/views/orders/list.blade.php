@@ -20,6 +20,7 @@
                         <th scope="col">Customer</th>
                         <th scope="col">Warehouse</th>
                         <th scope="col">Status</th>
+                        <th scope="col">Edit</th>
                         <th scope="col">Confirm</th>
                         <th scope="col">Cancel</th>
                         <th scope="col">Resume</th>
@@ -32,6 +33,12 @@
                             <td>{{$value->customer}}</td>
                             <td>{{$value->warehouse->name}}</td>
                             <td>{{$value->status}}</td>
+                            <td>
+                                <form action="{{route('orders.update', $value)}}" method="PUT" class="complete-form" data-id="{{ $value }}">
+                                    @csrf
+                                    <button type = "submit" style="border: none"><i class="nav-icon fas fa-edit text-primary"></i></button>
+                                </form>
+                            </td>
                             <td>
                                 <form action="{{route('orders.complete', $value)}}" method="POST" class="complete-form" data-id="{{ $value }}">
                                     @csrf
