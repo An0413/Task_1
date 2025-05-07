@@ -43,6 +43,7 @@ class OrderController extends Controller
                 'warehouse_id' => $data['warehouse_id'],
                 'status' => 'active',
             ]);
+
                 foreach ($data['items'] as $item) {
                     $stock = Stock::where('product_id', $item['product_id'])
                         ->where('warehouse_id', $data['warehouse_id'])
