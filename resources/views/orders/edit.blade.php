@@ -1,38 +1,41 @@
 @extends('layout.layout')
+
 @section('content')
-    <div class="row justify-content-center">
+    <div class="container mt-4">
+        <h3>Редактировать заказ</h3>
+        @if(session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @endif
+        <form action="{{ route('orders.update', $order->id) }}" method="POST">
+            @csrf
+            @method('PUT')
 
-        <h3>Order create</h3>
+            <div class="form-group">
+                <label for="customer">Имя клиента</label>
+                <input type="text" class="form-control" name="customer" value="{{ old('customer', $order->customer) }}" required>
+            </div>
 
-    </div>
-    <div class="row">
-        <div class="col-1"></div>
-        <div class="col-10 mt-4">
-            <form action="{{"orders.update"}}" method="PUT">
-                @csrf
-                @foreach($order as $value)
-                    <div class="col-lg-4 col-sm-6">
-                        <div class="form-group">
-                            <label for="customer">Customer</label>
-                            <input type="text" class="form-control" id="customer" name="customer" value="{{$value->customer}}" required>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-sm-6">
-                        <div class="form-group">
-                            <label for="warehouse_id">Warehouses</label>
-                            <select class="form-control region" id="warehouse_id" aria-label="Default select example"
-                                    name="warehouse_id" required>
-                                @foreach($warehouses as $value)
-                                    <option value="{{$value->id}}">{{$value->name}}</option>
+            <div class="form-group mt-3">
+                <label>Товары</label>
+                <div id="items-container">
+                    @foreach ($order->items as $index => $item)
+                        <div class="d-flex mb-2">
+                            <select name="items[{{ $index }}][product_id]" class="form-control me-2" required>
+                                @foreach ($products as $product)
+                                    <option value="{{ $product->id }}" {{ $product->id == $item->product_id ? 'selected' : '' }}>
+                                        {{ $product->name }}
+                                    </option>
                                 @endforeach
                             </select>
+                            <input type="number" class="form-control me-2" name="items[{{ $index }}][count]" min="1" value="{{ $item->count }}" required>
                         </div>
-                    </div>
-                    <div class="col-lg-12 col-sm-6">
-                        <button type="submit" class="btn btn-primary mt-4">Submit</button>
-                    </div>
-                @endforeach
-            </form>
-        </div>
-        <div class="col-1"></div>
+                    @endforeach
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary mt-3">Update</button>
+        </form>
+    </div>
 @endsection

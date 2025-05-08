@@ -10,7 +10,7 @@
     <meta name="author" content="">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>Test task=</title>
+    <title>Test task</title>
 
     <!-- Custom fonts for this template-->
     <link href="{{asset('/vendor/fontawesome-free/css/all.min.css')}}" rel="stylesheet" type="text/css">
@@ -63,7 +63,6 @@
 </a>
 
 <!-- Bootstrap core JavaScript-->
-{{--<script src="{{asset('admin/vendor/jquery/jquery.min.js')}}"></script>--}}
 <script src="{{asset('vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 <script src="{{asset('vendor/datatables/jquery.dataTables.min.js')}}"></script>
 <script src="{{asset('vendor/bootstrap/js/bootstrap.min.js')}}"></script>
@@ -75,17 +74,8 @@
 <!-- Custom scripts for all pages-->
 <script src="{{asset('js/sb-admin-2.min.js')}}"></script>
 
-<!-- Page level plugins -->
-<script src="{{asset('vendor/chart.js/Chart.min.js')}}"></script>
-
-<!-- Page level custom scripts -->
-<script src="{{asset('js/demo/chart-area-demo.js')}}"></script>
-<script src="{{asset('js/demo/chart-pie-demo.js')}}"></script>
 <!--  Custom script -->
 <script src="{{asset('js/custom.js')}}"></script>
-<script src="{{asset('js/contracts/contract.js')}}"></script>
-<script src="{{asset('js/products/product.js')}}"></script>
-{{--<script src="{{asset('admin/js/admin/create.js')}}"></script>--}}
 </body>
 
 </html>

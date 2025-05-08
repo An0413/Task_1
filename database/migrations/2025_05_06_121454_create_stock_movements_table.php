@@ -15,12 +15,14 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('product_id');
             $table->unsignedBigInteger('warehouse_id');
+            $table->unsignedBigInteger('order_id')->nullable();
             $table->integer('change');
             $table->string('reason')->nullable();
             $table->timestamps();
 
             $table->foreign('product_id')->references('id')->on('products');
             $table->foreign('warehouse_id')->references('id')->on('warehouses');
+            $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
         });
     }
 

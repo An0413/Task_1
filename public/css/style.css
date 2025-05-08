@@ -201,23 +201,10 @@ le_color{
     position: absolute;
     left: 6px;
 }
-
-.price_label{
-    display: none;
-}
-
 .contract_type_text{
     display: none;
 }
 
 .visibility{
     visibility: visible;
-}
-
-.price{
-    color: red;
-}
-
-.discount_price{
-    color: green;
 }
