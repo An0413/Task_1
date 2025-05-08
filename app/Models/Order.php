@@ -15,14 +15,14 @@ class Order extends Model
         'status',
 //        'completed_at',
 //        'canceled_at',
-        // ավելացրու այստեղ բոլոր մյուս դաշտերը, որ ցանկանում ես լրացնել create/update-ով
+        // добавьте сюда все остальные поля, которые вы хотите заполнить, создайте/обновите
     ];
     public function items()
     {
         return $this->hasMany(OrderItem::class);
     }
 
-    // Պահեստը, որից պատվերը կատարվել է
+    // Склад, с которого был выполнен заказ
     public function warehouse()
     {
         return $this->belongsTo(Warehouse::class);

@@ -34,28 +34,6 @@
                     </tbody>
                 </table>
             </div>
-            <div class="modal fade" id="paid" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Վճարում</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <input class="form-control input-sm" type="number" id="paid_sum" value="">
-                            <input class="form-control input-sm" type="hidden" id="comp_val" value="">
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Փակել</button>
-                            <button id="send_paid_val" type="button" class="btn btn-primary" data-dismiss="modal">
-                                Հաստատել
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
         <div class="col-3"></div>
 

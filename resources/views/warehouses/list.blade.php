@@ -8,10 +8,6 @@
     <div class="row">
         <div class="col-3"></div>
         <div class="col-6 mt-4">
-            <a type="button" class="btn btn-outline-success px-3 py-2 float-right"
-               href="{{--{{route('companies_create')}}--}}">Create</a>
-
-
             <div class="table-responsive">
                 <table class="table table-bordered mt-3" id="dataTable" width="100%" cellspacing="0">
                     <thead>

@@ -53,7 +53,7 @@ class OrderController extends Controller
                     ->first();
 
                 if (!$stock || $stock->stock < $item['count']) {
-                    throw new \Exception('Количество товаров недостаточно.');
+                    return redirect()->back()->with('error', 'Недостаточно товара на складе.');
                 }
 
                 Stock::where('product_id', $item['product_id'])
