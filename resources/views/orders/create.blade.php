@@ -4,7 +4,9 @@
     <div class="row justify-content-center">
         <h3>Order Create</h3>
     </div>
-
+    <div class="row justify-content-center">    @if(session('error'))
+            <div class="alert alert-danger">            {{ session('error') }}        </div>
+        @endif</div>
     <div class="row">
         <div class="col-1"></div>
         <div class="col-10 mt-4">
